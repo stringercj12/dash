@@ -25,37 +25,32 @@ type FormData = {
   remember?: boolean;
 };
 
-const Home: NextPage = () => {
+const Register: NextPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
   });
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
 
-  const handleSignIn = async (formData: FormEvent) => {
+  const handleCreateUser = async (formData: FormEvent) => {
     formData.preventDefault();
-    if (email === "" || password === "") {
+    if (email === "" || password === "" || name === "") {
       setSnackbar({
         open: true,
-        message: "E-mail e senha obrigatórios",
+        message: "Os campos são obrigatórios",
       });
       return;
     }
-
-    console.log(email, password, remember);
-
     setIsLoading(true);
-
     setTimeout(() => {
       setIsLoading(false);
       router.push("dashboard");
     }, 2000);
   };
-
   function handleClose() {
     setSnackbar({ open: false, message: "" });
   }
@@ -82,11 +77,26 @@ const Home: NextPage = () => {
           onClose={handleClose}
           message={snackbar.message}
         />
-        <form onSubmit={handleSignIn}>
+        <form onSubmit={handleCreateUser}>
           <Typography component="h4" variant="h4" align="center" mb="2">
-            Login
+            Cadastro
           </Typography>
           <Stack spacing="4">
+            <div>
+              <TextField
+                id="outlined-basic"
+                label="Nome"
+                variant="outlined"
+                size="small"
+                fullWidth
+                autoComplete="name"
+                autoFocus
+                margin="normal"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+              {/* {!!email && <FormHelperText> {email}</FormHelperText>} */}
+            </div>
             <div>
               <TextField
                 id="outlined-basic"
@@ -95,11 +105,11 @@ const Home: NextPage = () => {
                 size="small"
                 fullWidth
                 autoComplete="email"
-                autoFocus
                 margin="normal"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
+              {/* {!!email && <FormHelperText> {email}</FormHelperText>} */}
             </div>
             <div>
               <TextField
@@ -120,18 +130,13 @@ const Home: NextPage = () => {
             sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
             <FormControlLabel
-              control={
-                <Checkbox
-                  value={remember}
-                  onChange={(event) => setRemember(Boolean(event.target.value))}
-                />
-              }
-              label="Relembrar conta"
+              control={<Checkbox value="remember" />}
+              label="Remember me"
             />
 
             <Box component="span" sx={{ mb: 0 }}>
-              <Link href="/forgot" variant="body2">
-                Esqueceu sua senha?
+              <Link href="#" variant="body2">
+                Forgot password?
               </Link>
             </Box>
           </FormGroup>
@@ -150,13 +155,13 @@ const Home: NextPage = () => {
                 }}
               />
             ) : (
-              "Entrar"
+              "Registrar"
             )}
           </Button>
 
           <Box sx={{ textAlign: "center" }}>
-            <Link href="/register" variant="body2">
-              Não tem uma conta? Inscrever-se
+            <Link href="/" variant="body2">
+              Voltar
             </Link>
           </Box>
         </form>
@@ -165,4 +170,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Register;

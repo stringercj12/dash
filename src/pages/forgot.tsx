@@ -17,15 +17,8 @@ import {
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAppTheme } from "../contexts/ThemeContext";
-// import { LoadingButton } from "@mui/lab";
 
-type FormData = {
-  email: string;
-  password: string;
-  remember?: boolean;
-};
-
-const Home: NextPage = () => {
+const Forgot: NextPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
@@ -33,20 +26,19 @@ const Home: NextPage = () => {
     message: "",
   });
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
 
   const handleSignIn = async (formData: FormEvent) => {
     formData.preventDefault();
-    if (email === "" || password === "") {
+
+    if (email === "") {
       setSnackbar({
         open: true,
-        message: "E-mail e senha obrigatórios",
+        message: "E-mail obrigatório",
       });
       return;
     }
 
-    console.log(email, password, remember);
+    console.log(email);
 
     setIsLoading(true);
 
@@ -57,7 +49,10 @@ const Home: NextPage = () => {
   };
 
   function handleClose() {
-    setSnackbar({ open: false, message: "" });
+    setSnackbar({
+      open: false,
+      message: "",
+    });
   }
 
   return (
@@ -82,9 +77,10 @@ const Home: NextPage = () => {
           onClose={handleClose}
           message={snackbar.message}
         />
+
         <form onSubmit={handleSignIn}>
           <Typography component="h4" variant="h4" align="center" mb="2">
-            Login
+            Esqueci a senha
           </Typography>
           <Stack spacing="4">
             <div>
@@ -101,40 +97,7 @@ const Home: NextPage = () => {
                 onChange={(event) => setEmail(event.target.value)}
               />
             </div>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="Senha"
-                variant="outlined"
-                size="small"
-                fullWidth
-                margin="normal"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
           </Stack>
-
-          <FormGroup
-            row
-            sx={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={remember}
-                  onChange={(event) => setRemember(Boolean(event.target.value))}
-                />
-              }
-              label="Relembrar conta"
-            />
-
-            <Box component="span" sx={{ mb: 0 }}>
-              <Link href="/forgot" variant="body2">
-                Esqueceu sua senha?
-              </Link>
-            </Box>
-          </FormGroup>
 
           <Button
             type="submit"
@@ -150,13 +113,13 @@ const Home: NextPage = () => {
                 }}
               />
             ) : (
-              "Entrar"
+              "Enviar"
             )}
           </Button>
 
           <Box sx={{ textAlign: "center" }}>
-            <Link href="/register" variant="body2">
-              Não tem uma conta? Inscrever-se
+            <Link href="/" variant="body2">
+              Voltar
             </Link>
           </Box>
         </form>
@@ -165,4 +128,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Forgot;

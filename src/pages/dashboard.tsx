@@ -1,24 +1,30 @@
-import { Box, Button } from "@mui/material";
 import { NextPage } from "next";
+import React, { useState } from "react";
 import { useAppTheme } from "../contexts/ThemeContext";
+import { Header } from "../components/header";
 
 const Dashboard: NextPage = () => {
   const { toggleTheme } = useAppTheme();
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <Box>
-      <h1>Dashboard</h1>
-      <div>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={toggleTheme}
-        >
-          Toggle Theme{" "}
-        </Button>
-      </div>
-    </Box>
+    <Header />
   );
 };
 
